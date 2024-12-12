@@ -32,7 +32,10 @@ extension_objids as (
             on c.oid = extension_objids.extension_objid
 
         left join pg_depend d
-            on c.oid = d.objid and d.deptype in ('i', 'a')
+            on c.oid = d.objid
+                and d.deptype in ('i', 'a')
+                and d.classid = 'pg_class'::regclass
+                and d.refclassid = 'pg_class'::regclass
 
         left join pg_class c_ref
             on d.refobjid = c_ref.oid
